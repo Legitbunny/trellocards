@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 
-// require('dotenv').config();
-
 function App() {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,45 +19,41 @@ function App() {
     event.preventDefault();
     const { name, description, startDate, dueDate } = formData;
     let dueComplete = true;
-    if(dueDate.toString().length > 0) {
-      dueComplete= true;
-    }else{
+    if (dueDate.toString().length > 0) {
+      dueComplete = true;
+    } else {
       dueComplete = false;
     }
     console.log(name, description, startDate);
-    try{
+    try {
       const res = await fetch(
         `https://api.trello.com/1/cards?idList=65ef31d5ceef56bd9bb0fa5a&key=437a5a195e043099bbf4a625f8f48ece&token=ATTA6787dc4bbb2454af3f6589dd161de92c6a59c76dfff753441d811bae7f250f5a3CC1B8F1&name=${name}&desc=${description}&startDate=${startDate}&dueComplete=${dueComplete}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Accept': 'application/json'
-          }
+            Accept: "application/json",
+          },
         }
-      )
+      );
 
       const data = await res.json();
-    console.log(data);
+      console.log(data);
 
-    if (res.statusCode === 400 || !data) {
-      console.log("failed");
-    } else {
-      console.log("success");
-      console.log("Card Created Successfully On Trello");
-    }
-      
-    }catch(err) {
+      if (res.statusCode === 400 || !data) {
+        console.log("failed");
+      } else {
+        console.log("success");
+        console.log("Card Created Successfully On Trello");
+      }
+    } catch (err) {
       console.error(err);
-    };
-    
-
-    
+    }
   };
 
   return (
     <>
       <form
-        className="flex flex-col mx-auto w-[10/12] justify-center items-center gap-1"
+        className="flex flex-col mx-auto w-[10/12] justify-center items-center gap-3"
         onSubmit={submitHandler}
       >
         <label htmlFor="name">Name</label>
